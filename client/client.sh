@@ -1,20 +1,19 @@
 #!/bin/sh
 
 GHSERVER=$1
-URL_BASE=$2
+URL_BASE="$2"
 
 # Install gohop
 apt update
-apt --yes install curl golang shadowsocks-libev
+apt --yes install curl shadowsocks-libev
 apt --yes dist-upgrade
-mkdir -p /usr/local/go
-export GOPATH=/usr/local/go
-go get github.com/bigeagle/gohop
+curl "$URL_BASE/gohop" -o /usr/local/bin/gohop
+chmod +x /usr/local/bin/gohop
 
 # Create gohop config file
 mkdir -p /etc/gohop/scripts
-curl "$URL_BASE/chnroute-up.sh" -o /etc/gohop/scripts/chnroute-up.sh
-curl "$URL_BASE/chnroute-down.sh" -o /etc/gohop/scripts/chnroute-down.sh
+curl "$URL_BASE/client/chnroute-up.sh" -o /etc/gohop/scripts/chnroute-up.sh
+curl "$URL_BASE/client/chnroute-down.sh" -o /etc/gohop/scripts/chnroute-down.sh
 cat << EOF > /etc/gohop/client.ini
 [default]
 mode = client
@@ -39,7 +38,7 @@ Description = GoHop personal VPN client
 Requires = network.target
 After = network.target
 [Service]
-ExecStart = /usr/local/go/bin/gohop /etc/gohop/client.ini
+ExecStart = /usr/local/bin/gohop /etc/gohop/client.ini
 KillSignal = SIGTERM
 [Install]
 WantedBy = multi-user.target

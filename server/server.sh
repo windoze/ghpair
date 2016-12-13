@@ -1,12 +1,13 @@
 #!/bin/sh
 
+URL_BASE="$1"
+
 # Install gohop
 apt update
-apt --yes install golang
+apt --yes install curl
 apt --yes dist-upgrade
-mkdir -p /usr/local/go
-export GOPATH=/usr/local/go
-go get github.com/bigeagle/gohop
+curl "$URL_BASE/gohop" -o /usr/local/bin/gohop
+chmod +x /usr/local/bin/gohop
 
 # Enable IP forwarding
 echo "net.ipv4.ip_forward=1" >> /etc/sysctl.conf
@@ -40,7 +41,7 @@ Description = GoHop personal VPN server
 Requires = network.target
 After = network.target
 [Service]
-ExecStart = /usr/local/go/bin/gohop /etc/gohop/server.ini
+ExecStart = /usr/local/bin/gohop /etc/gohop/server.ini
 KillSignal = SIGTERM
 [Install]
 WantedBy = multi-user.target
