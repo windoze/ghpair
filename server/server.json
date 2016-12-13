@@ -29,7 +29,7 @@
         "sshKeyPath": "[concat('/home/', parameters('adminUsername'), '/.ssh/authorized_keys')]",
         "storageAccountType": "Standard_LRS",
         "storageAccountName": "[uniqueString(resourceGroup().id, deployment().name)]",
-        "storageBaseUrl": ".blob.core.chinacloudapi.cn",
+        "storageBaseUrl": ".blob.core.windows.net",
         "scriptUrlBase": "https://raw.githubusercontent.com/windoze/ghpair/master",
         "scriptName": "server.sh",
         "scriptUrl": "[concat(variables('scriptUrlBase'), variables('scriptName'))]"
