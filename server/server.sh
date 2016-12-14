@@ -1,6 +1,7 @@
 #!/bin/sh
 
 URL_BASE="$1"
+GH_PASSWD="$2"
 
 # Install gohop
 curl "$URL_BASE/gohop" -o /usr/local/bin/gohop
@@ -25,7 +26,7 @@ hopstart = 40000
 hopend = 41000
 addr = 10.1.1.1/24
 mtu = 1400
-key = dSQaVkDsU7PTt6pU
+key = ${GH_PASSWD}
 morphmethod = none
 fixmss = true
 peertimeout = 60

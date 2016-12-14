@@ -14,6 +14,12 @@
             "metadata": {
                 "description": "SSH public key for the Virtual Machines."
             }
+        },
+        "ghPassword": {
+            "type": "string",
+            "metadata": {
+                "description": "Gohop password."
+            }
         }
     },
     "variables": {
@@ -25,7 +31,6 @@
         "networkSecurityGroupName": "goserver-nsg",
         "publicIPAddresseName": "goserver-ip",
         "virtualNetworkName": "goserver-vnet",
-        "clusterFqdn": "[concat('ghserver-',uniqueString(resourceGroup().id, deployment().name))]",
         "sshKeyPath": "[concat('/home/', parameters('adminUsername'), '/.ssh/authorized_keys')]",
         "storageAccountType": "Standard_LRS",
         "storageAccountName": "[uniqueString(resourceGroup().id, deployment().name)]",
@@ -100,7 +105,7 @@
                     "autoUpgradeMinorVersion": true,
                     "settings": {
                         "fileUris": ["[variables('scriptUrl')]"],
-                        "commandToExecute": "[concat('sh ', variables('scriptName'), ' ', variables('scriptUrlBase'))]"
+                        "commandToExecute": "[concat('sh ', variables('scriptName'), ' ', variables('scriptUrlBase'), ' ', parameters('ghPassword'))]"
                     }
                 }
                 }
@@ -183,10 +188,7 @@
             "apiVersion": "2016-03-30",
             "location": "[resourceGroup().location]",
             "properties": {
-                "publicIPAllocationMethod": "Dynamic",
-                "dnsSettings": {
-                    "domainNameLabel": "[variables('clusterFqdn')]"
-                }
+                "publicIPAllocationMethod": "Dynamic"
             }
         },
         {
@@ -223,7 +225,11 @@
     "outputs": {
         "gohop-server": {
             "type": "string",
-            "value": "[reference(variables('publicIPAddresseName')).dnsSettings.fqdn]"
+            "value": "[reference(variables('publicIPAddresseName')).ipAddress]"
+        },
+        "gohop-password": {
+            "type": "string",
+            "value": "[parameters('ghPassword')]"
         }
     }
 }
