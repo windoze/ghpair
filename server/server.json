@@ -17,9 +17,9 @@
         }
     },
     "variables": {
-        "osImagePublisher": "Canonical",
-        "osImageOffer": "UbuntuServer",
-        "osImageSKU": "16.04.0-LTS",
+        "osImagePublisher": "OpenLogic",
+        "osImageOffer": "CentOS",
+        "osImageSKU": "7.2",
         "virtualMachineName": "goserver",
         "networkInterfaceName": "goserver-nic",
         "networkSecurityGroupName": "goserver-nsg",
@@ -32,7 +32,7 @@
         "storageBaseUrl": ".blob.core.windows.net",
         "scriptUrlBase": "https://raw.githubusercontent.com/windoze/ghpair/master",
         "scriptName": "server.sh",
-        "scriptUrl": "[concat(variables('scriptUrlBase'), variables('scriptName'))]"
+        "scriptUrl": "[concat(variables('scriptUrlBase'), '/server/', variables('scriptName'))]"
     },
     "resources": [
         {
@@ -43,7 +43,7 @@
             "tags": {},
             "properties": {
                 "hardwareProfile": {
-                    "vmSize": "Standard_DS1"
+                    "vmSize": "Standard_A1"
                 },
                 "storageProfile": {
                     "imageReference": {

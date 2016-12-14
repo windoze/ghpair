@@ -38,7 +38,7 @@
         "storageBaseUrl": ".blob.core.chinacloudapi.cn",
         "scriptUrlBase": "https://raw.githubusercontent.com/windoze/ghpair/master",
         "scriptName": "client.sh",
-        "scriptUrl": "[concat(variables('scriptUrlBase'), variables('scriptName'))]"
+        "scriptUrl": "[concat(variables('scriptUrlBase'), '/client/', variables('scriptName'))]"
     },
     "resources": [
         {

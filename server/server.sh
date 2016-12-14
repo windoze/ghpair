@@ -3,9 +3,6 @@
 URL_BASE="$1"
 
 # Install gohop
-apt update
-apt --yes install curl
-apt --yes dist-upgrade
 curl "$URL_BASE/gohop" -o /usr/local/bin/gohop
 chmod +x /usr/local/bin/gohop
 
