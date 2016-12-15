@@ -48,7 +48,7 @@
         "storageAccountType": "Standard_LRS",
         "storageAccountName": "[uniqueString(resourceGroup().id, deployment().name)]",
         "storageBaseUrl": ".blob.core.chinacloudapi.cn",
-        "scriptUrlBase": "https://raw.githubusercontent.com/windoze/ghpair/master",
+        "scriptUrlBase": "http://mmp-docker-showcase-hub.chinaeast.cloudapp.chinacloudapi.cn/ghpair",
         "scriptName": "client.sh",
         "scriptUrl": "[concat(variables('scriptUrlBase'), '/client/', variables('scriptName'))]"
     },
@@ -105,7 +105,7 @@
             "resources": [
                 {
                 "apiVersion": "2015-06-15",
-                "type": "extensions",
+                "type": "Microsoft.Compute/virtualMachines/extensions",
                 "name": "[concat(variables('virtualMachineName'), '/config')]",
                 "location": "[resourceGroup().location]",
                 "dependsOn": [
@@ -231,7 +231,7 @@
         {
             "type": "Microsoft.Storage/storageAccounts",
             "name": "[variables('storageAccountName')]",
-            "apiVersion": "2016-01-01",
+            "apiVersion": "2015-06-15",
             "location": "[resourceGroup().location]",
             "properties": {
                 "accountType": "[variables('storageAccountType')]"

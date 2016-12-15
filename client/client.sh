@@ -13,6 +13,7 @@ chmod +x /usr/local/bin/gohop
 mkdir -p /etc/gohop/scripts
 curl "$URL_BASE/client/chnroute-up.sh" -o /etc/gohop/scripts/chnroute-up.sh
 curl "$URL_BASE/client/chnroute-down.sh" -o /etc/gohop/scripts/chnroute-down.sh
+chmod +x /etc/gohop/scripts/chnroute-up.sh /etc/gohop/scripts/chnroute-down.sh
 cat << EOF > /etc/gohop/client.ini
 [default]
 mode = client
@@ -45,6 +46,8 @@ EOF
 
 # Install shadowsocks server
 curl "$URL_BASE/ss-server" -o /usr/local/bin/ss-server
+chmod +x /usr/local/bin/ss-server
+mkdir /etc/shadowsocks-libev
 
 # Create shadowsocks config file
 cat << EOF > /etc/shadowsocks-libev/config.json
