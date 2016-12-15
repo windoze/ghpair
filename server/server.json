@@ -221,15 +221,5 @@
                 "accountType": "[variables('storageAccountType')]"
             }
         }
-    ],
-    "outputs": {
-        "gohop-server": {
-            "type": "string",
-            "value": "[reference(variables('publicIPAddresseName')).ipAddress]"
-        },
-        "gohop-password": {
-            "type": "string",
-            "value": "[parameters('ghPassword')]"
-        }
-    }
+    ]
 }

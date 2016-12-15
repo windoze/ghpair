@@ -20,6 +20,18 @@
             "metadata": {
                 "description": "IP of GoHop server."
             }
+        },
+        "ghPassword": {
+            "type": "string",
+            "metadata": {
+                "description": "Gohop password."
+            }
+        },
+        "ssPassword": {
+            "type": "string",
+            "metadata": {
+                "description": "Shadowsocks password."
+            }
         }
     },
     "variables": {
@@ -106,7 +118,7 @@
                     "autoUpgradeMinorVersion": true,
                     "settings": {
                         "fileUris": ["[variables('scriptUrl')]"],
-                        "commandToExecute": "[concat('sh ', variables('scriptName'), ' ', parameters('ghServer'), ' ', variables('scriptUrlBase'))]"
+                        "commandToExecute": "[concat('sh ', variables('scriptName'), ' ', parameters('ghServer'), ' ', variables('scriptUrlBase'), ' ', parameters('ghPassword'), ' ', parameters('ssPassword'))]"
                     }
                 }
                 }

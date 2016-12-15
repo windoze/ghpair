@@ -2,9 +2,10 @@
 
 GHSERVER=$1
 URL_BASE="$2"
+GHPASSWD="$3"
+SSPASSWD="$4"
 
 # Install gohop
-apt --yes install curl shadowsocks-libev
 curl "$URL_BASE/gohop" -o /usr/local/bin/gohop
 chmod +x /usr/local/bin/gohop
 
@@ -20,7 +21,7 @@ server = $GHSERVER
 hopstart = 40000
 hopend = 41000
 mtu = 1400
-key = dSQaVkDsU7PTt6pU
+key = $GHPASSWD
 morphmethod = none
 redirect-gateway = true
 local = false
@@ -42,17 +43,34 @@ KillSignal = SIGTERM
 WantedBy = multi-user.target
 EOF
 
+# Install shadowsocks server
+curl "$URL_BASE/ss-server" -o /usr/local/bin/ss-server
+
 # Create shadowsocks config file
 cat << EOF > /etc/shadowsocks-libev/config.json
 {
-    "server":"10.1.0.6",
+    "server":"10.1.0.4",
     "server_port":8388,
-    "password":"4eeAa3sEW0qdk2cf",
+    "password":"$SSPASSWD",
     "timeout":300,
     "method":"aes-256-cfb",
     "fast_open": false,
     "workers": 10
 }
+EOF
+
+# Create shadowsocks service configuration for systemd
+cat << EOF > /etc/systemd/system/shadowsocks-libev.service
+[Unit]
+Description = Shadowsocks-libev server
+After = network.target
+[Service]
+Type=simple
+User=root
+LimitNOFILE=32768
+ExecStart=/usr/local/bin/ss-server -c /etc/shadowsocks-libev/config.json -u
+[Install]
+WantedBy = multi-user.target
 EOF
 
 # Manually start all services, no wait to next reboot
