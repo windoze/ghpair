@@ -4,9 +4,7 @@ GHSERVER=$1
 URL_BASE="$2"
 
 # Install gohop
-apt update
 apt --yes install curl shadowsocks-libev
-apt --yes dist-upgrade
 curl "$URL_BASE/gohop" -o /usr/local/bin/gohop
 chmod +x /usr/local/bin/gohop
 
