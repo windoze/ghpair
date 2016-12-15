@@ -35,9 +35,9 @@
         }
     },
     "variables": {
-        "osImagePublisher": "Canonical",
-        "osImageOffer": "UbuntuServer",
-        "osImageSKU": "16.04.0-LTS",
+        "osImagePublisher": "OpenLogic",
+        "osImageOffer": "CentOS",
+        "osImageSKU": "7.2",
         "virtualMachineName": "goserver",
         "networkInterfaceName": "goserver-nic",
         "networkSecurityGroupName": "goserver-nsg",

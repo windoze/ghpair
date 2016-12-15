@@ -1,6 +1,6 @@
 #!/bin/sh
 
-GHSERVER=$1
+GHSERVER="$1"
 URL_BASE="$2"
 GHPASSWD="$3"
 SSPASSWD="$4"
