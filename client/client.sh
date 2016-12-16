@@ -76,6 +76,11 @@ ExecStart=/usr/local/bin/ss-server -c /etc/shadowsocks-libev/config.json -u
 WantedBy = multi-user.target
 EOF
 
+# Regenerage /etc/resolv.conf
+echo "DNS1=8.8.8.8" >> /etc/sysconfig/network-scripts/ifcfg-eth0
+echo "DNS2=8.8.4.4" >> /etc/sysconfig/network-scripts/ifcfg-eth0
+systemctl restart network.service
+
 # Manually start all services, no wait to next reboot
 systemctl enable gohop-client.service
 systemctl start gohop-client.service
