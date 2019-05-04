@@ -5,6 +5,10 @@ URL_BASE="$2"
 GHPASSWD="$3"
 SSPASSWD="$4"
 
+apt-get -y update
+apt-get -y dist-upgrade
+apt-get -y install curl shadowsocks-libev
+
 # Install gohop
 curl "$URL_BASE/gohop" -o /usr/local/bin/gohop
 chmod +x /usr/local/bin/gohop
@@ -45,44 +49,49 @@ WantedBy = multi-user.target
 EOF
 
 # Install shadowsocks server
-curl "$URL_BASE/ss-server" -o /usr/local/bin/ss-server
-chmod +x /usr/local/bin/ss-server
-mkdir /etc/shadowsocks-libev
+#curl "$URL_BASE/ss-server" -o /usr/local/bin/ss-server
+#chmod +x /usr/local/bin/ss-server
+#mkdir /etc/shadowsocks-libev
 
 # Create shadowsocks config file
 cat << EOF > /etc/shadowsocks-libev/config.json
 {
-    "server":"10.1.0.4",
-    "server_port":8388,
+    "server":"0.0.0.0",
+    "server_port":43261,
     "password":"$SSPASSWD",
     "timeout":300,
     "method":"aes-256-cfb",
     "fast_open": false,
+    "mode": "tcp_and_udp",
     "workers": 10
 }
 EOF
 
 # Create shadowsocks service configuration for systemd
-cat << EOF > /etc/systemd/system/shadowsocks-libev.service
-[Unit]
-Description = Shadowsocks-libev server
-After = network.target
-[Service]
-Type=simple
-User=root
-LimitNOFILE=32768
-ExecStart=/usr/local/bin/ss-server -c /etc/shadowsocks-libev/config.json -u
-[Install]
-WantedBy = multi-user.target
-EOF
+#cat << EOF > /etc/systemd/system/shadowsocks-libev.service
+#[Unit]
+#Description = Shadowsocks-libev server
+#After = network.target
+#[Service]
+#Type=simple
+#User=root
+#LimitNOFILE=32768
+#ExecStart=/usr/local/bin/ss-server -c /etc/shadowsocks-libev/config.json -u
+#[Install]
+#WantedBy = multi-user.target
+#EOF
 
 # Regenerage /etc/resolv.conf
-echo "DNS1=8.8.8.8" >> /etc/sysconfig/network-scripts/ifcfg-eth0
-echo "DNS2=8.8.4.4" >> /etc/sysconfig/network-scripts/ifcfg-eth0
-systemctl restart network.service
+#echo "DNS1=8.8.8.8" >> /etc/sysconfig/network-scripts/ifcfg-eth0
+#echo "DNS2=8.8.4.4" >> /etc/sysconfig/network-scripts/ifcfg-eth0
+#systemctl restart network.service
+systemctl disable systemd-resolved.service
+systemctl stop systemd-resolved
+rm /etc/resolv.conf
+echo "nameserver 8.8.8.8" > /etc/resolv.conf
 
 # Manually start all services, no wait to next reboot
 systemctl enable gohop-client.service
 systemctl start gohop-client.service
 systemctl enable shadowsocks-libev.service
-systemctl start shadowsocks-libev.service
+systemctl restart shadowsocks-libev.service

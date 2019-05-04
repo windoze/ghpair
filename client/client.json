@@ -35,9 +35,9 @@
         }
     },
     "variables": {
-        "osImagePublisher": "OpenLogic",
-        "osImageOffer": "CentOS",
-        "osImageSKU": "7.2",
+        "osImagePublisher": "Canonical",
+        "osImageOffer": "UbuntuServer",
+        "osImageSKU": "18.04-LTS",
         "virtualMachineName": "goclient",
         "networkInterfaceName": "goclient-nic",
         "networkSecurityGroupName": "goclient-nsg",
@@ -48,7 +48,7 @@
         "storageAccountType": "Standard_LRS",
         "storageAccountName": "[uniqueString(resourceGroup().id, deployment().name)]",
         "storageBaseUrl": ".blob.core.chinacloudapi.cn",
-        "scriptUrlBase": "http://mmp-docker-showcase-hub.chinaeast.cloudapp.chinacloudapi.cn/ghpair",
+        "scriptUrlBase": "https://raw.githubusercontent.com/windoze/ghpair/master",
         "scriptName": "client.sh",
         "scriptUrl": "[concat(variables('scriptUrlBase'), '/client/', variables('scriptName'))]"
     },
@@ -184,7 +184,7 @@
                         "properties": {
                             "protocol": "Tcp",
                             "sourcePortRange": "*",
-                            "destinationPortRange": "8388",
+                            "destinationPortRange": "43261",
                             "sourceAddressPrefix": "*",
                             "destinationAddressPrefix": "*",
                             "access": "Allow",
