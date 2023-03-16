@@ -12,9 +12,13 @@ echo "net.ipv4.ip_forward=1" >> /etc/sysctl.conf
 
 # Enable IP masquerade
 cat << EOF > /etc/rc.local
+#!/bin/sh
+
 iptables -t nat -A POSTROUTING -j MASQUERADE
 exit 0
 EOF
+
+chmod +x /etc/rc.local
 
 # Create gohop config file
 mkdir /etc/gohop
